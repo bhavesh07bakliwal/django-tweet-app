@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Tweets
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h1 class="text-center mb-4">Welcome to Tweet Project</h1>
+
+    {% if user.is_authenticated %}
+        <div class="text-center mb-3">
+            <a class="btn btn-primary" href="{% url 'tweet_create' %}">
+                Create a Tweet
+            </a>
+            <a class="btn btn-secondary" href="{% url 'profile' %}">
+                View Profile
+            </a>
+        </div>
+    {% else %}
+        <div class="text-center mb-3">
+            <a class="btn btn-success" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-warning" href="{% url 'register' %}">Register</a>
+        </div>
+    {% endif %}
+
+    <div class="row mt-4">
+
+        {% for tweet in tweets %}
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow">
+
+                {% if tweet.photo %}
+                <img src="{{ tweet.photo.url }}" class="card-img-top" alt="Tweet Image">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">{{ tweet.user.username }}</h5>
+
+                    <p class="card-text">{{ tweet.text }}</p>
+
+                    {% if tweet.user == request.user %}
+                        <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+        {% empty %}
+            <p class="text-center">No tweets available 😢</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
