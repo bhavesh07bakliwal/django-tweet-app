@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>You have been logged out</h2>
+
+<p>Thank you for using our app </p>
+
+<a href="{% url 'login' %}" class="btn btn-primary">
+    Login Again
+</a>
+
+<a href="{% url 'tweet_list' %}" class="btn btn-secondary">
+    Go to Home
+</a>
+{% endblock %}
